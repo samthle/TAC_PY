@@ -13,10 +13,11 @@ class SpongeBob:
         self.dna = dna
 
     def process_dna(self):
-        sorted_dna = self.merge_sort(self.dna)
+        sorted_dna = self._merge_sort(self.dna)
         return sorted_dna
 
-    def merge_sort(self, dna):
+    @staticmethod
+    def _merge_sort(dna):
         sorted_dna = "".join(sorted(dna))
         return sorted_dna
 
@@ -29,7 +30,7 @@ class Squidward:
         processed_dna = ""
         i = 0
         while i < len(self.dna):
-            if i < len(self.dna) - 2 and self.dna[i] == self.dna[i + 1] == self.dna[i + 2]:
+            if i < len(self.dna) - 2 and self.dna[i:i + 3] == self.dna[i] * 3:
                 processed_dna += "(0_0)"
                 i += 3
             else:
@@ -39,7 +40,7 @@ class Squidward:
 
 
 def main():
-    input_data = input() 
+    input_data = input().strip().lower()  # Convert to lowercase for case-insensitivity and strip whitespace
     if input_data.startswith("m"):
         krabs = MrKrabs(input_data)
         print(krabs.process_dna())
@@ -50,9 +51,8 @@ def main():
         squidward = Squidward(input_data)
         print(squidward.process_dna())
     else:
-        print("invalid input")
+        print("Invalid input")
 
 
 if __name__ == "__main__":
     main()
-
