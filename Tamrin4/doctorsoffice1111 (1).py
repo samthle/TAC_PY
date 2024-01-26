@@ -3,50 +3,16 @@ class DoctorAppointmentSystem:
         self.patients = {}
         self.visits = {}
 
-    def add_patient(self, id, name, family_name, age, height, weight):
-        if id in self.patients:
-            return "error: this ID already exists"
-        if age < 0 or height < 0 or weight < 0:
-            return "error: invalid input"
-        
-        self.patients[id] = {
-            "name": name,
-            "family_name": family_name,
-            "age": age,
-            "height": height,
-            "weight": weight
-        }
-        return "patient added successfully"
-
-    def display_patient(self, id):
+    def get_patient_info(self, id):
+        # Renamed from display_patient for clarity
         if id not in self.patients:
             return "error: invalid ID"
         
         patient_info = self.patients[id]
         return f"patient name: {patient_info['name']}\npatient family name: {patient_info['family_name']}\npatient age: {patient_info['age']}\npatient height: {patient_info['height']}\npatient weight: {patient_info['weight']}"
 
-    def add_visit(self, id, beginning_time):
-        if id not in self.patients:
-            return "error: invalid id"
-        if beginning_time < 9 or beginning_time >= 18:
-            return "error: invalid time"
-        if beginning_time in self.visits.values():
-            return "error: busy time"
-        
-        self.visits[id] = beginning_time
-        return "visit added successfully!"
-
-    def delete_patient(self, id):
-        if id not in self.patients:
-            return "error: invalid id"
-        
-        del self.patients[id]
-        for key, value in list(self.visits.items()):
-            if value == id:
-                del self.visits[key]
-        return "patient deleted successfully!"
-
-    def display_visit_list(self):
+    def get_visit_schedule(self):
+        # Renamed from display_visit_list for clarity
         schedule = "SCHEDULE:\n"
         for key, value in self.visits.items():
             patient_info = self.patients[key]
@@ -54,34 +20,45 @@ class DoctorAppointmentSystem:
             schedule += f"{time_str}: {patient_info['name']} {patient_info['family_name']}\n"
         return schedule
 
-system = DoctorAppointmentSystem()
-
-while True:
-    command = input()
+def parse_command(command):
     parts = command.split()
-    
-    if parts[0] == "add" and parts[1] == "patient":
-        result = system.add_patient(int(parts[2]), parts[3], parts[4], int(parts[5]), int(parts[6]), int(parts[7]))
-        print(result)
-    
-    elif parts[0] == "display" and parts[1] == "patient":
-        result = system.display_patient(int(parts[2]))
-        print(result)
-    
-    elif parts[0] == "add" and parts[1] == "visit":
-        result = system.add_visit(int(parts[2]), int(parts[3]))
-        print(result)
-    
-    elif parts[0] == "delete" and parts[1] == "patient":
-        result = system.delete_patient(int(parts[2]))
-        print(result)
-    
-    elif parts[0] == "display" and parts[1] == "visit" and parts[2] == "list":
-        result = system.display_visit_list()
-        print(result, end="")
-    
-    elif parts[0] == "exit":
-        break
-    
-    else:
-        print("invalid command")
+    if not parts:
+        return None, []
+
+    return parts[0], parts[1:]
+
+def main():
+    system = DoctorAppointmentSystem()
+
+    while True:
+        command = input("Enter command: ")
+        action, args = parse_command(command)
+
+        if action == "add" and args[0] == "patient":
+            result = system.add_patient(int(args[1]), args[2], args[3], int(args[4]), int(args[5]), int(args[6]))
+            print(result)
+
+        elif action == "display" and args[0] == "patient":
+            result = system.get_patient_info(int(args[1]))
+            print(result)
+
+        elif action == "add" and args[0] == "visit":
+            result = system.add_visit(int(args[1]), int(args[2]))
+            print(result)
+
+        elif action == "delete" and args[0] == "patient":
+            result = system.remove_patient(int(args[1]))
+            print(result)
+
+        elif action == "display" and args[0] == "visit" and args[1] == "list":
+            result = system.get_visit_schedule()
+            print(result, end="")
+
+        elif action == "exit":
+            break
+
+        else:
+            print("Invalid command")
+
+if __name__ == "__main__":
+    main()
