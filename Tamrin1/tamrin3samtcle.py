@@ -1,31 +1,27 @@
-#by samtcle
-def tabe_tabdil_binary(n): 
-    return "{:032b}".format(int(n))
+def convert_to_binary_string(num):
+    return "{:032b}".format(num)
 
-a = str(input())
+def main():
+    a = int(input("Enter the first integer: "))
+    b = int(input("Enter the second integer: "))
+    k = int(input("Enter the number of queries: "))
 
-b = str(input())
+    binary_a = convert_to_binary_string(a)
+    binary_b = convert_to_binary_string(b)
 
-k = int(input())
+    combined_binary = binary_b + binary_a
 
-b = str(tabe_tabdil_binary(int(b)))
-a = str(tabe_tabdil_binary(int(a)))
+    final_ans = ""
+    for _ in range(k):
+        mehman_x = int(input("Enter a query: "))
 
-aob64 = str(b)+str(a)
-finalans=str()
-for i in range(k):
-    mehmanx = int(input())
+        if combined_binary[-mehman_x - 1] == '1':
+            final_ans += '1'
+        else:
+            final_ans += '0'
 
-    if aob64[-mehmanx-1]=='1':
-        finalans = finalans+'1'
-    else:
-        finalans = finalans+'0'
-tmp=0
+    for bit in final_ans:
+        print('yes' if bit == '1' else 'no')
 
-while tmp!=(len(finalans)):
-
-    if finalans[tmp]=='1':
-        print('yes')
-    elif finalans[tmp]=='0':
-        print('no')
-    tmp+=1
+if __name__ == "__main__":
+    main()
