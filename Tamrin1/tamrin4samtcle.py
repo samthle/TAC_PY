@@ -1,36 +1,25 @@
-#by samtcle
-def tashkhis_adad_aval(number):
-    
+def is_prime(number):
     if number < 2:
-    
         return False
     
     for i in range(2, int(number**0.5) + 1):
-    
         if number % i == 0:
+            return False
     
-            return '0'
-    
-    return '1'
+    return True
 
-a, b = map(int, input().split())
+def count_primes_in_range(start, end):
+    return sum(1 for num in range(start, end + 1) if is_prime(num))
 
-count_prime_numbers = 0
+def main():
+    a, b = map(int, input("Enter two integers separated by space: ").split())
+    min_ab = min(a, b)
+    max_ab = max(a, b)
 
-minab = min(a, b)
-maxab = max(a, b)
+    count_primes = count_primes_in_range(min_ab, max_ab)
 
-for number in range(minab, maxab + 1):
+    order = 'main' if a <= b else 'reverse'
+    print(f'{order} order - amount: {count_primes}')
 
-    if tashkhis_adad_aval(number) == '1':
-    
-        count_prime_numbers += 1
-
-
-if a <= b:
-    
-    print(f'main order - amount: {count_prime_numbers}')
-
-else:
-
-    print(f'reverse order - amount: {count_prime_numbers}')
+if __name__ == "__main__":
+    main()
