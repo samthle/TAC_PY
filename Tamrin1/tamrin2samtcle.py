@@ -1,29 +1,20 @@
-#by samtcle
-def tabe_jaam_ba_amalkard(x,y):
-    while True:
-        if y==0:
-            break
+def add_with_bitwise_operations(x, y):
+    while y != 0:
         tmp = x & y
         x = x ^ y
         y = tmp << 1
     return x
 
+def main():
+    n = int(input("Enter the first integer: "))
+    m = int(input("Enter the second integer: "))
+    
+    result = add_with_bitwise_operations(n, m)
 
-n = int(input())
-m = int(input())
-javabe_jaam_comp = tabe_jaam_ba_amalkard(n,m)
+    k = int(input("Enter the target integer: "))
 
+    print(result)
+    print('YES' if result == k else 'NO')
 
-
-k = int(input())
-
-
-if javabe_jaam_comp == k :
-    print(javabe_jaam_comp)
-    print('YES')
-
-
-elif javabe_jaam_comp!= k :
-    print(javabe_jaam_comp)
-    print('NO')
-
+if __name__ == "__main__":
+    main()
